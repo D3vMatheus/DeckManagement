@@ -1,4 +1,5 @@
 using DeckManager.Context;
+using DeckManager.DTOs.Mappings;
 using DeckManager.Repositories.Interfaces;
 using DeckManager.Repositories.Services;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,9 @@ builder.Services.AddScoped<IDeckRepository, DeckRepository>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddAutoMapper(typeof(DeckDTOMappingProfile));
+builder.Services.AddAutoMapper(typeof(CardDTOMappingProfile));
 
 var app = builder.Build();
 

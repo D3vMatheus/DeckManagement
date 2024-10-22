@@ -108,3 +108,5 @@ C:\Users\mathe\source\repos\DeckManager\DeckManager\bin\Debug\net8.0\ru\Microsof
 C:\Users\mathe\source\repos\DeckManager\DeckManager\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\mathe\source\repos\DeckManager\DeckManager\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\mathe\source\repos\DeckManager\DeckManager\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\mathe\source\repos\DeckManager\DeckManager\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\mathe\source\repos\DeckManager\DeckManager\obj\Debug\net8.0\DeckManager.sourcelink.json
