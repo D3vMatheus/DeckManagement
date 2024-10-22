@@ -1,0 +1,58 @@
+name: dockercompose16985156442570902333
+services:
+  deck_manager_database:
+    container_name: deckmanager_db
+    environment:
+      POSTGRES_DB: deckmanager
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    image: postgres:latest
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/postgresql/data
+        volume: {}
+  deckmanager:
+    build:
+      context: C:\Users\mathe\source\repos\DeckManager
+      dockerfile: DeckManager/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ASPNETCORE_HTTPS_PORTS: "8081"
+    image: deckmanager
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        protocol: tcp
+      - mode: ingress
+        target: 8081
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: C:\Users\mathe\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\mathe\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: dockercompose16985156442570902333_default
+volumes:
+  postgres_data:
+    name: dockercompose16985156442570902333_postgres_data

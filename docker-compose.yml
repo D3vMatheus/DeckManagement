@@ -1,0 +1,22 @@
+services:
+  deckmanager:
+    image: ${DOCKER_REGISTRY-}deckmanager
+    build:
+      context: .
+      dockerfile: DeckManager/Dockerfile
+
+  deck_manager_database:
+    image: postgres:latest
+    container_name: deckmanager_db
+    environment:
+     - POSTGRES_DB=deckmanager
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres
+    ports:
+     - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  
