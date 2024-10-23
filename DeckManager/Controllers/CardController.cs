@@ -9,13 +9,13 @@ namespace DeckManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CardsController : ControllerBase
+    public class CardController : ControllerBase
     {
         private readonly ICardRepository _cardRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CardsController(ICardRepository cardRepository,
+        public CardController(ICardRepository cardRepository,
                                IMapper mapper,
                                IUnitOfWork unitOfWork)
         {
@@ -51,14 +51,14 @@ namespace DeckManager.Controllers
         }
 
         [HttpGet("{number:regex(^[[A-Z]]{{2}}\\d{{1,2}}-\\d{{3}}$)}")]
-        public async Task<ActionResult<CardDTO>> GetByCardNumber(string number)
+        public async Task<ActionResult<IEnumerable<CardDTO>>> GetByCardNumber(string number)
         {
             if (number == null)
                 return NotFound();
 
             var card = await _unitOfWork.CardRepository.GetByCardNumberAsync(number);
 
-            var cardDto = _mapper.Map<CardDTO>(card);
+            var cardDto = _mapper.Map<IEnumerable<CardDTO>>(card);
 
             return Ok(cardDto);
 
