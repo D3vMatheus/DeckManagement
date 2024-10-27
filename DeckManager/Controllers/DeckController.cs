@@ -15,7 +15,7 @@ namespace DeckManager.Controllers
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        private DeckController(IDeckRepository deckRepository,
+        public DeckController(IDeckRepository deckRepository,
                                IMapper mapper,
                                IUnitOfWork unitOfWork)
         {
@@ -32,7 +32,8 @@ namespace DeckManager.Controllers
             if (decks is null)
                 return NotFound("Any deck(s) wasn't found");
 
-            var  decksDto = _mapper.Map<DeckDTO>(decks);
+            var  decksDto = _mapper.Map<IEnumerable<DeckDTO>>(decks);
+
             return Ok(decksDto);
 
         }
@@ -64,6 +65,23 @@ namespace DeckManager.Controllers
             var newDeckDto = _mapper.Map<DeckDTO>(deck);
 
             return new CreatedAtRouteResult("GetDeckById", new { id = newDeckDto.DeckId }, newDeckDto);
+        }
+
+        [HttpPost("CardIntoDeck")]
+        public async Task<ActionResult<DeckDTO>> PostCardIntoDeck(DeckDTO deckDto, int deckId, string number)
+        {
+            if (deckDto is null)
+                return BadRequest();
+
+            var deck = _mapper.Map<Deck>(deckDto);
+
+            var cardIntoDeck = _unitOfWork.DeckRepository.AddCardIntoDeck(deckId, number);
+
+            await _unitOfWork.commitAsync();
+
+            var newDeckDto = _mapper.Map<DeckDTO>(deck);
+
+            return new CreatedAtRouteResult("GetDeckById", new { id = newDeckDto }, newDeckDto);
         }
 
         [HttpPut]

@@ -8,11 +8,9 @@ namespace DeckManager.DTOs
     {
         public int DeckId { get; set; }
 
-        [Required]
         [DisplayName("Deck Name")]
         public string Name { get; set; }
 
-        [Required]
         [DisplayName("Deck Url image")]
         public string? ImageUrl { get; set; }
 
