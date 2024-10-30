@@ -67,23 +67,6 @@ namespace DeckManager.Controllers
             return new CreatedAtRouteResult("GetDeckById", new { id = newDeckDto.DeckId }, newDeckDto);
         }
 
-        [HttpPost("CardIntoDeck")]
-        public async Task<ActionResult<DeckDTO>> PostCardIntoDeck(DeckDTO deckDto, int deckId, string number)
-        {
-            if (deckDto is null)
-                return BadRequest();
-
-            var deck = _mapper.Map<Deck>(deckDto);
-
-            var cardIntoDeck = _unitOfWork.DeckRepository.AddCardIntoDeck(deckId, number);
-
-            await _unitOfWork.commitAsync();
-
-            var newDeckDto = _mapper.Map<DeckDTO>(deck);
-
-            return new CreatedAtRouteResult("GetDeckById", new { id = newDeckDto }, newDeckDto);
-        }
-
         [HttpPut]
         public async Task<ActionResult> PutDeck(int id, DeckDTO deckDTO)
         {
