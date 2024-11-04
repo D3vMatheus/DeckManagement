@@ -14,6 +14,6 @@ namespace DeckManager.DTOs
         [DisplayName("Deck Url image")]
         public string? ImageUrl { get; set; }
 
-        public ICollection<Card>? Cards { get; set; }
+        public IEnumerable<Card>? Cards { get; set; } = [];
     }
 }

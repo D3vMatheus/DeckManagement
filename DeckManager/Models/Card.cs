@@ -1,4 +1,5 @@
 ﻿using DeckManager.Enums;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -6,6 +7,9 @@ namespace DeckManager.Models
 {
     public class Card
     {
+        public Card() {
+            Decks  = new Collection<Deck>();
+        }
         public int CardId { get; set; }
 
         [Required]
@@ -30,28 +34,26 @@ namespace DeckManager.Models
         [Required]
         public string Type { get; set; }
         
-        [Required]
         public string Attribute { get; set; }
         
-        [Required]
         public int Lv { get; set; }
         
-        [Required]
         public int PlayCost { get; set; }
         
         [Required]
         public int DigimonPower { get; set; }
         
-        [Required]
         public string DigievolutionCondition { get; set; }
         
-        [Required]
         public string Form { get; set; }
         
-        [Required]
         public string MainEffect { get; set; }
         
-        [Required]
         public string SecondaryEffect { get; set; }
+
+        public int DeckId { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Deck>? Decks { get; set; }
     }
 }

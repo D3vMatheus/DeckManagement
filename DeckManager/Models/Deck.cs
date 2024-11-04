@@ -12,14 +12,13 @@ namespace DeckManager.Models
         }
         public int DeckId { get; set; }
        
-        [Required]
         [DisplayName("Deck Name")]
         public string Name { get; set; }
         
-        [Required]
         [DisplayName("Deck Url image")]
         public string? ImageUrl { get; set; }
         
+        public int CardId { get; set; }
         public ICollection<Card>? Cards { get; set; }
     }
 }

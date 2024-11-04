@@ -6,25 +6,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DeckManager.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreateMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "decks",
-                columns: table => new
-                {
-                    DeckId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_decks", x => x.DeckId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "cards",
                 columns: table => new
@@ -51,23 +37,59 @@ namespace DeckManager.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_cards", x => x.CardId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "decks",
+                columns: table => new
+                {
+                    DeckId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: false),
+                    CardId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_decks", x => x.DeckId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CardDeck",
+                columns: table => new
+                {
+                    CardsCardId = table.Column<int>(type: "integer", nullable: false),
+                    DecksDeckId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CardDeck", x => new { x.CardsCardId, x.DecksDeckId });
                     table.ForeignKey(
-                        name: "FK_cards_decks_DeckId",
-                        column: x => x.DeckId,
+                        name: "FK_CardDeck_cards_CardsCardId",
+                        column: x => x.CardsCardId,
+                        principalTable: "cards",
+                        principalColumn: "CardId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CardDeck_decks_DecksDeckId",
+                        column: x => x.DecksDeckId,
                         principalTable: "decks",
                         principalColumn: "DeckId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_cards_DeckId",
-                table: "cards",
-                column: "DeckId");
+                name: "IX_CardDeck_DecksDeckId",
+                table: "CardDeck",
+                column: "DecksDeckId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CardDeck");
+
             migrationBuilder.DropTable(
                 name: "cards");
 
